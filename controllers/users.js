@@ -15,6 +15,8 @@ const getUserId = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
+      } if (err.name === 'CastError') {
+        res.status(400);
       } else {
         res.status(500);
       }
