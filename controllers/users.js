@@ -49,9 +49,13 @@ const login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      res.send({
-        token: jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' }),
-      });
+      const token = jwt.sign(
+        { _id: user._id },
+        'some-secret-key',
+        { expiresIn: '7d' },
+      );
+      res.cookie('_id', token, { httpOnly: true });
+      res.end('Токен отправлен');
     })
     .catch((err) => {
       res.status(401).send({ message: err.message });
