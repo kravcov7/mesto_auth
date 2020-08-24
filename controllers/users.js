@@ -27,14 +27,27 @@ const createUser = (req, res) => {
     name, about, avatar, email, password,
   } = req.body;
 
+  if (!password || password.length < 8 || !password.trim()) {
+    res.status(400).send({ message: 'Пароль должен быть более 8 символов' });
+    return;
+  }
+
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.status(201).send({
+      _id: user._id,
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400);
+      } if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409);
       } else {
         res.status(500);
       }
