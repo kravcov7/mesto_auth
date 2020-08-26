@@ -69,7 +69,7 @@ const login = (req, res) => {
         'some-secret-key',
         { expiresIn: '7d' },
       );
-      res.cookie('_id', token, { httpOnly: true });
+      res.cookie('jwt', token, { httpOnly: true });
       res.end('Токен отправлен');
     })
     .catch((err) => {
