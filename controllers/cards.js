@@ -40,7 +40,7 @@ const deleteCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
-      } if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         res.status(400);
       } else {
         res.status(500);
@@ -60,7 +60,7 @@ const likeCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
-      } if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         res.status(400);
       } else {
         res.status(500);
@@ -80,7 +80,7 @@ const dislikeCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
-      } if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         res.status(400);
       } else {
         res.status(500);

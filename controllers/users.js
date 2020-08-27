@@ -17,7 +17,7 @@ const getUserId = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
-      } if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         res.status(400);
       } else {
         res.status(500);
@@ -50,7 +50,7 @@ const createUser = (req, res) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400);
-      } if (err.name === 'MongoError' && err.code === 11000) {
+      } else if (err.name === 'MongoError' && err.code === 11000) {
         res.status(409);
       } else {
         res.status(500);
@@ -97,7 +97,7 @@ const updateUserInfo = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
-      } if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         res.status(400);
       } else {
         res.status(500);
@@ -120,7 +120,7 @@ const updateAvatar = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
-      } if (err.name === 'ValidationError') {
+      } else if (err.name === 'ValidationError') {
         res.status(400);
       } else {
         res.status(500);
