@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const Card = require('../models/card');
 
 const getCards = (req, res) => {
@@ -23,12 +24,24 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
-  Card.findById(req.params.id)
+  const { cardId } = req.params;
+  const userId = req.user._id;
+
+  Card.findById({ _id: cardId, owner: userId })
     .orFail().remove()
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (!card) {
+        return res
+          .status(403)
+          .send({ message: 'Нельзя удалять чужие карточки' });
+      }
+      res.send({ data: card });
+    })
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
+      } else if (err.name === 'ValidationError') {
+        res.status(400);
       } else {
         res.status(500);
       }
@@ -47,6 +60,8 @@ const likeCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
+      } else if (err.name === 'ValidationError') {
+        res.status(400);
       } else {
         res.status(500);
       }
@@ -65,6 +80,8 @@ const dislikeCard = (req, res) => {
     .catch((err) => {
       if (err.name === 'DocumentNotFoundError') {
         res.status(404);
+      } else if (err.name === 'ValidationError') {
+        res.status(400);
       } else {
         res.status(500);
       }
